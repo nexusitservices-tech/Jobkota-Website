@@ -103,7 +103,7 @@ export default function About() {
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent flex items-end p-8">
                 <div className="text-white space-y-1">
                   <p className="text-xs uppercase tracking-wider font-bold text-signal">
-                    Headquartered in DIFC, Dubai
+                    Headquartered in Deira, Dubai
                   </p>
                   <p className="text-lg font-bold">
                     Serving premier enterprises across UAE, Saudi Arabia & international hubs.

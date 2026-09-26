@@ -22,6 +22,7 @@ export default function Home() {
       url: window.location.origin,
       address: {
         "@type": "PostalAddress",
+        streetAddress: siteConfig.address,
         addressLocality: "Dubai",
         addressCountry: "AE",
       },

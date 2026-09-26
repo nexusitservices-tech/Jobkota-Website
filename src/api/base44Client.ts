@@ -46,6 +46,11 @@ export interface ApplicationEntity {
   cover_letter?: string;
   consent?: boolean;
   status: 'Applied' | 'Under Review' | 'Shortlisted' | 'Interview' | 'Selected' | 'Rejected' | 'Withdrawn';
+  notes?: string;
+  rating?: number;
+  interview_date?: string;
+  linkedin_url?: string;
+  source?: string;
 }
 
 export interface LeadEntity {
@@ -60,6 +65,7 @@ export interface LeadEntity {
   topic?: string;
   message?: string;
   status: 'New Lead' | 'Contacted' | 'Qualified' | 'Proposal' | 'Active Client' | 'Closed';
+  notes?: string;
 }
 
 export interface WorkforceRequestEntity {
@@ -82,6 +88,7 @@ export interface WorkforceRequestEntity {
   budget?: string;
   requirements?: string;
   status: 'New' | 'In Review' | 'Active' | 'Fulfilled' | 'Closed';
+  notes?: string;
 }
 
 export interface UserEntity {
@@ -90,6 +97,7 @@ export interface UserEntity {
   full_name: string;
   email: string;
   role: 'admin' | 'user';
+  is_verified_session?: boolean;
 }
 
 const DEFAULT_USER: UserEntity = {
@@ -98,6 +106,7 @@ const DEFAULT_USER: UserEntity = {
   full_name: 'Nexus Talent Director',
   email: 'nexus.itservices06@gmail.com',
   role: 'admin',
+  is_verified_session: true,
 };
 
 const SEED_JOBS: JobEntity[] = [
@@ -448,11 +457,26 @@ class StorageTable<T extends { id: string }> {
   constructor(key: string, initialData: T[] = []) {
     this.key = `jobkota:${key}`;
     if (typeof window !== 'undefined') {
-      const existing = localStorage.getItem(this.key);
-      if (!existing && initialData.length > 0) {
-        localStorage.setItem(this.key, JSON.stringify(initialData));
+      try {
+        const existing = localStorage.getItem(this.key);
+        if (!existing && initialData.length > 0) {
+          localStorage.setItem(this.key, JSON.stringify(initialData));
+        } else if (existing) {
+          const parsed = JSON.parse(existing);
+          if (Array.isArray(parsed) && parsed.length === 0 && initialData.length > 0) {
+            localStorage.setItem(this.key, JSON.stringify(initialData));
+          }
+        }
+      } catch {
+        if (initialData.length > 0) {
+          localStorage.setItem(this.key, JSON.stringify(initialData));
+        }
       }
     }
+  }
+
+  public reset(data: T[]): void {
+    this.writeAll(data);
   }
 
   private readAll(): T[] {
@@ -525,12 +549,22 @@ class StorageTable<T extends { id: string }> {
   async create(data: Partial<T>): Promise<T> {
     const items = this.readAll();
     const now = new Date().toISOString();
+    const currentUserId = typeof window !== 'undefined'
+      ? (() => {
+          try {
+            return JSON.parse(localStorage.getItem('jobkota:auth:user') || '{}')?.id;
+          } catch {
+            return null;
+          }
+        })()
+      : null;
+
     const newItem: any = {
       ...data,
       id: data.id || `rec_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
       created_date: (data as any).created_date || now,
       updated_date: now,
-      created_by_id: (data as any).created_by_id || DEFAULT_USER.id,
+      created_by_id: (data as any).created_by_id || currentUserId || 'usr_system',
     };
     items.unshift(newItem);
     this.writeAll(items);
@@ -611,9 +645,7 @@ class StorageTable<T extends { id: string }> {
   }
 }
 
-// Global Entities Tables
-const jobTable = new StorageTable<JobEntity>('jobs', SEED_JOBS);
-const appTable = new StorageTable<ApplicationEntity>('applications', [
+export const SEED_APPLICATIONS: ApplicationEntity[] = [
   {
     id: 'app_01',
     created_date: new Date(Date.now() - 3 * 86400000).toISOString(),
@@ -626,9 +658,13 @@ const appTable = new StorageTable<ApplicationEntity>('applications', [
     phone: '+971 50 123 4567',
     location: 'Dubai, UAE',
     cv_file_name: 'Omar_AlMansouri_Senior_CV.pdf',
-    cover_letter: 'Passionate frontend engineer with 6 years experience architecting cloud apps.',
+    cover_letter: 'Passionate frontend engineer with 6 years experience architecting cloud apps and fintech portals in Dubai Internet City.',
     consent: true,
     status: 'Shortlisted',
+    rating: 5,
+    interview_date: new Date(Date.now() + 2 * 86400000).toISOString(),
+    notes: 'Exceptional system architecture background. Passed live coding round with 96% score. Salary expectation 26,000 AED/mo. Ready in 30 days notice.',
+    linkedin_url: 'https://linkedin.com/in/omar-almansouri-dev',
   },
   {
     id: 'app_02',
@@ -642,36 +678,313 @@ const appTable = new StorageTable<ApplicationEntity>('applications', [
     phone: '+971 55 987 6543',
     location: 'Abu Dhabi, UAE',
     cv_file_name: 'Sara_Haddad_IB_Resume.pdf',
-    cover_letter: 'Ex-Big 4 Transaction Services professional with strong M&A valuation expertise.',
+    cover_letter: 'Ex-Big 4 Transaction Services professional with strong M&A valuation expertise and cross-border DCM advisory track record.',
     consent: true,
     status: 'Interview',
+    rating: 4,
+    interview_date: new Date(Date.now() + 4 * 86400000).toISOString(),
+    notes: 'CFA charterholder. Managed 3 regional divestiture deals. Partner round scheduled for Thursday at DIFC office.',
+    linkedin_url: 'https://linkedin.com/in/sara-haddad-cfa',
   },
-]);
-const leadTable = new StorageTable<LeadEntity>('leads', []);
-const workforceTable = new StorageTable<WorkforceRequestEntity>('workforce_requests', []);
+  {
+    id: 'app_03',
+    created_date: new Date(Date.now() - 5 * 86400000).toISOString(),
+    updated_date: new Date(Date.now() - 2 * 86400000).toISOString(),
+    job_id: 'job_03',
+    job_title: 'Director of Food & Beverage',
+    company: 'Mirage Luxury Resorts & Spas',
+    full_name: 'Tariq Mahmoud',
+    email: 'tariq.mahmoud@luxuryhospitality.me',
+    phone: '+971 54 882 1920',
+    location: 'Palm Jumeirah, Dubai',
+    cv_file_name: 'Tariq_Mahmoud_Hospitality_Director.pdf',
+    cover_letter: 'Over 12 years of ultra-luxury 5-star hotel executive leadership directing multi-outlet Michelin-star culinary concepts.',
+    consent: true,
+    status: 'Selected',
+    rating: 5,
+    notes: 'Top tier candidate. Managed 220 staff across 8 signature restaurants at Burj Al Arab. Official offer letter dispatched and accepted in principle.',
+    linkedin_url: 'https://linkedin.com/in/tariq-mahmoud-hospitality',
+  },
+  {
+    id: 'app_04',
+    created_date: new Date(Date.now() - 2 * 86400000).toISOString(),
+    updated_date: new Date(Date.now() - 1 * 86400000).toISOString(),
+    job_id: 'job_01',
+    job_title: 'Senior React & Cloud Platform Engineer',
+    company: 'FinApex Technologies',
+    full_name: 'Priya Ramaswamy',
+    email: 'priya.ramaswamy@techdev.io',
+    phone: '+971 56 312 9081',
+    location: 'Dubai Marina, UAE',
+    cv_file_name: 'Priya_Ramaswamy_Frontend_Lead.pdf',
+    cover_letter: 'Lead frontend architect with deep TypeScript, Next.js, and serverless infrastructure background across GCC high-growth startups.',
+    consent: true,
+    status: 'Interview',
+    rating: 4,
+    interview_date: new Date(Date.now() + 3 * 86400000).toISOString(),
+    notes: 'Technical test was outstanding. Moving to team culture and architectural assessment.',
+  },
+  {
+    id: 'app_05',
+    created_date: new Date(Date.now() - 6 * 86400000).toISOString(),
+    updated_date: new Date(Date.now() - 4 * 86400000).toISOString(),
+    job_id: 'job_04',
+    job_title: 'Senior Civil Project Engineer — Infrastructure',
+    company: 'Emirates Contracting Consortium',
+    full_name: 'Khaled Al-Zahrani',
+    email: 'k.alzahrani@infrastructure-ae.com',
+    phone: '+971 52 443 9012',
+    location: 'Abu Dhabi, UAE',
+    cv_file_name: 'Khaled_AlZahrani_Civil_Engineer.pdf',
+    cover_letter: 'PMP-certified Senior Civil Engineer with 9 years executing major highway interchange and bridge projects in the UAE.',
+    consent: true,
+    status: 'Under Review',
+    rating: 3,
+    notes: 'Solid project track record with Musanada and DOT. Verified degree attestation and Society of Engineers card.',
+  },
+  {
+    id: 'app_06',
+    created_date: new Date(Date.now() - 4 * 86400000).toISOString(),
+    updated_date: new Date(Date.now() - 3 * 86400000).toISOString(),
+    job_id: 'job_06',
+    job_title: 'HR Operations & People Partner',
+    company: 'Gulf Enterprise Holdings',
+    full_name: 'Elena Rostova',
+    email: 'elena.rostova@workforce-gcc.com',
+    phone: '+971 58 776 2311',
+    location: 'Dubai, UAE',
+    cv_file_name: 'Elena_Rostova_HR_Partner.pdf',
+    cover_letter: 'SHRM-SCP certified HR Business Partner with 7 years managing end-to-end employee lifecycles and MOHRE labor compliance.',
+    consent: true,
+    status: 'Applied',
+    rating: 4,
+    notes: 'Fluent English and Russian, working conversational Arabic. Strong UAE Labor Law knowledge.',
+  },
+  {
+    id: 'app_07',
+    created_date: new Date(Date.now() - 8 * 86400000).toISOString(),
+    updated_date: new Date(Date.now() - 5 * 86400000).toISOString(),
+    job_id: 'job_07',
+    job_title: 'Bilingual Corporate Paralegal — DIFC Laws',
+    company: 'Al Tamimi & Horizon Legal',
+    full_name: 'Mohammed Al-Balooshi',
+    email: 'm.albalooshi@law-gcc.ae',
+    phone: '+971 50 654 3210',
+    location: 'DIFC, Dubai, UAE',
+    cv_file_name: 'Mohammed_AlBalooshi_Paralegal.pdf',
+    cover_letter: 'Law graduate with 4 years drafting corporate resolutions, commercial contracts, and managing regulatory filings in DIFC and ADGM.',
+    consent: true,
+    status: 'Shortlisted',
+    rating: 5,
+    notes: 'Native Arabic and fluent legal English. Experience with DFSA compliance frameworks.',
+  },
+  {
+    id: 'app_08',
+    created_date: new Date(Date.now() - 7 * 86400000).toISOString(),
+    updated_date: new Date(Date.now() - 6 * 86400000).toISOString(),
+    job_id: 'job_05',
+    job_title: 'Retail General Store Manager — Luxury Flagship',
+    company: 'Al Tayer Luxury Brands',
+    full_name: 'Jessica Vance',
+    email: 'jessica.vance@retailfashion.co',
+    phone: '+971 55 432 1098',
+    location: 'Dubai Mall, UAE',
+    cv_file_name: 'Jessica_Vance_Retail_CV.pdf',
+    cover_letter: '10 years luxury retail general management experience across Mayfair London and Dubai Mall flagship locations.',
+    consent: true,
+    status: 'Applied',
+    rating: 3,
+    notes: 'Exceeded sales targets by 22% in previous tenure. High client VIP book.',
+  },
+];
+
+export const SEED_LEADS: LeadEntity[] = [
+  {
+    id: 'lead_01',
+    created_date: new Date(Date.now() - 2 * 86400000).toISOString(),
+    updated_date: new Date(Date.now() - 1 * 86400000).toISOString(),
+    name: 'Karim El-Masri',
+    company: 'Emaar Hospitality Group',
+    email: 'karim.elmasri@emaar.ae',
+    phone: '+971 4 367 3333',
+    source: 'contact',
+    topic: 'Recruitment Mandate',
+    message: 'Seeking specialized executive recruitment partner for 3 General Manager appointments for our upcoming luxury resorts in Ras Al Khaimah and Dubai Creek.',
+    status: 'Qualified',
+    notes: 'Initial discovery call completed. Prepared executive proposal for 18% placement fee structure.',
+  },
+  {
+    id: 'lead_02',
+    created_date: new Date(Date.now() - 1 * 86400000).toISOString(),
+    updated_date: new Date(Date.now() - 1 * 86400000).toISOString(),
+    name: 'Fatima Al-Suwaidi',
+    company: 'DP World Logistics',
+    email: 'f.alsuwaidi@dpworld.com',
+    phone: '+971 4 889 7000',
+    source: 'contact',
+    topic: 'Manpower Supply',
+    message: 'We require 120 certified logistics, crane, and forklift operators for Q4 peak seasonal operations in Jafza terminal.',
+    status: 'New Lead',
+    notes: 'High-value inquiry. Operations director needs to provide site accommodation and visa quota breakdown.',
+  },
+  {
+    id: 'lead_03',
+    created_date: new Date(Date.now() - 4 * 86400000).toISOString(),
+    updated_date: new Date(Date.now() - 2 * 86400000).toISOString(),
+    name: 'Dr. Jason Miller',
+    company: 'Mediclinic Middle East',
+    email: 'jason.miller@mediclinic.ae',
+    phone: '+971 4 435 9999',
+    source: 'contact',
+    topic: 'HR Outsourcing',
+    message: 'Exploring managed payroll outsourcing and healthcare professional licensing administration for 450 clinical staff.',
+    status: 'Proposal',
+    notes: 'Submitted SLA and WPS compliance assurance documents. Awaiting board sign-off.',
+  },
+  {
+    id: 'lead_04',
+    created_date: new Date(Date.now() - 5 * 86400000).toISOString(),
+    updated_date: new Date(Date.now() - 3 * 86400000).toISOString(),
+    name: 'Hisham Qureshi',
+    company: 'Careem Technologies',
+    email: 'hisham.q@careem.com',
+    phone: '+971 50 771 2288',
+    source: 'contact',
+    topic: 'PEO / Employer of Record',
+    message: 'Need Employer of Record services in Riyadh and Muscat to employ 15 remote senior software engineers.',
+    status: 'Contacted',
+    notes: 'Shared regional fee rate cards for Saudi and Oman entities.',
+  },
+];
+
+export const SEED_WORKFORCE: WorkforceRequestEntity[] = [
+  {
+    id: 'wf_01',
+    created_date: new Date(Date.now() - 3 * 86400000).toISOString(),
+    updated_date: new Date(Date.now() - 1 * 86400000).toISOString(),
+    company: 'Etihad Rail Infrastructure JV',
+    contact_name: 'Eng. Mansoor Al-Ketbi',
+    email: 'm.alketbi@etihadrail-jv.ae',
+    phone: '+971 2 444 8899',
+    industry: 'construction',
+    service: 'Manpower Supply',
+    position: 'Heavy Rail Equipment Operators & Certified Riggers',
+    employees_needed: 45,
+    employment_type: 'Contract',
+    location: 'Abu Dhabi & Fujairah, UAE',
+    experience: '5+ years railway or heavy civil infrastructure',
+    skills: 'Doosan / CAT heavy machinery, rigging certificates, HSE level 2',
+    start_date: '2026-11-01',
+    budget: '12,000 - 16,000 AED/mo per operator',
+    requirements: 'Immediate security pass clearances, camp accommodation provided by client.',
+    status: 'Active',
+    notes: 'First batch of 20 candidate files forwarded for site gate passes.',
+  },
+  {
+    id: 'wf_02',
+    created_date: new Date(Date.now() - 2 * 86400000).toISOString(),
+    updated_date: new Date(Date.now() - 1 * 86400000).toISOString(),
+    company: 'Mandarin Oriental Luxury Resort',
+    contact_name: 'Sophie Laurent',
+    email: 'slaurent@mohg.com',
+    phone: '+971 4 777 2000',
+    industry: 'hospitality',
+    service: 'Recruitment',
+    position: 'Bilingual VIP Concierge & Guest Experience Executives',
+    employees_needed: 8,
+    employment_type: 'Full-time',
+    location: 'Jumeirah Beach, Dubai',
+    experience: '3+ years luxury 5-star resort reception/concierge',
+    skills: 'Opera PMS, multilingual (French, Russian, or Arabic)',
+    start_date: '2026-10-15',
+    budget: '14,000 - 18,000 AED/mo + service charge',
+    requirements: 'Must have immaculate grooming standards and strong VIP problem-solving.',
+    status: 'In Review',
+    notes: 'Shortlisting 16 candidate profiles for panel interviews next Tuesday.',
+  },
+  {
+    id: 'wf_03',
+    created_date: new Date(Date.now() - 1 * 86400000).toISOString(),
+    updated_date: new Date(Date.now() - 1 * 86400000).toISOString(),
+    company: 'Sovereign Wealth Digital Bank',
+    contact_name: 'Tariq Al-Nuaimi',
+    email: 'tariq@ad-fintech.ae',
+    phone: '+971 2 699 1000',
+    industry: 'technology',
+    service: 'Recruitment',
+    position: 'Senior Kubernetes & Cloud Security Consultants',
+    employees_needed: 3,
+    employment_type: 'Full-time',
+    location: 'ADGM, Abu Dhabi',
+    experience: '6+ years DevSecOps in regulated banking environments',
+    skills: 'AWS, Kubernetes, Terraform, CIS Benchmarks, SOC2',
+    start_date: '2026-11-15',
+    budget: '35,000 - 45,000 AED/mo',
+    requirements: 'CISP or CKS certification preferred.',
+    status: 'New',
+    notes: 'Newly received mandate. Assigning senior tech recruiter.',
+  },
+];
+
+// Global Entities Tables
+const jobTable = new StorageTable<JobEntity>('jobs', SEED_JOBS);
+const appTable = new StorageTable<ApplicationEntity>('applications', SEED_APPLICATIONS);
+const leadTable = new StorageTable<LeadEntity>('leads', SEED_LEADS);
+const workforceTable = new StorageTable<WorkforceRequestEntity>('workforce_requests', SEED_WORKFORCE);
+
+interface StoredAccount {
+  email: string;
+  password: string;
+  full_name: string;
+  role: "admin" | "user";
+}
 
 // Auth helper
 class AuthClient {
-  private userKey = 'jobkota:auth:user';
+  private userKey = "jobkota:auth:user";
+  private accountsKey = "jobkota:auth:accounts";
+
+  private getAccounts(): StoredAccount[] {
+    if (typeof window === "undefined") return [];
+    try {
+      const stored = localStorage.getItem(this.accountsKey);
+      return stored ? JSON.parse(stored) : [];
+    } catch {
+      return [];
+    }
+  }
+
+  private saveAccount(account: StoredAccount): void {
+    if (typeof window === "undefined") return;
+    const accounts = this.getAccounts().filter((a) => a.email !== account.email);
+    accounts.push(account);
+    localStorage.setItem(this.accountsKey, JSON.stringify(accounts));
+  }
 
   getCurrentUser(): UserEntity | null {
-    if (typeof window === 'undefined') return null;
+    if (typeof window === "undefined") return null;
     const stored = localStorage.getItem(this.userKey);
     if (!stored) {
-      // By default, initialize with the admin user so employer portal works smoothly
-      localStorage.setItem(this.userKey, JSON.stringify(DEFAULT_USER));
-      return DEFAULT_USER;
+      // Default state is always LOGGED OUT
+      return null;
     }
     try {
-      return JSON.parse(stored);
+      const parsed = JSON.parse(stored);
+      // Clean up legacy mock auto-login if it wasn't authenticated via /login
+      if (parsed?.id === "usr_admin_01" && !parsed?.is_verified_session) {
+        localStorage.removeItem(this.userKey);
+        return null;
+      }
+      return parsed;
     } catch {
-      return DEFAULT_USER;
+      localStorage.removeItem(this.userKey);
+      return null;
     }
   }
 
   async me(): Promise<UserEntity> {
     const user = this.getCurrentUser();
-    if (!user) throw new Error('Not authenticated');
+    if (!user) throw new Error("Not authenticated");
     return user;
   }
 
@@ -679,63 +992,145 @@ class AuthClient {
     return !!this.getCurrentUser();
   }
 
-  async logout(redirectUrl = '/'): Promise<void> {
-    if (typeof window !== 'undefined') {
+  async logout(redirectUrl = "/"): Promise<void> {
+    if (typeof window !== "undefined") {
       localStorage.removeItem(this.userKey);
       window.location.href = redirectUrl;
     }
   }
 
   redirectToLogin(nextUrl?: string): void {
-    if (typeof window !== 'undefined') {
-      const query = nextUrl ? `?returnTo=${encodeURIComponent(nextUrl)}` : '';
+    if (typeof window !== "undefined") {
+      const query = nextUrl ? `?returnTo=${encodeURIComponent(nextUrl)}` : "";
       window.location.href = `/login${query}`;
     }
   }
 
   async updateMe(data: Partial<UserEntity>): Promise<UserEntity> {
-    const current = this.getCurrentUser() || DEFAULT_USER;
+    const current = this.getCurrentUser();
+    if (!current) throw new Error("Not authenticated");
     const updated = { ...current, ...data };
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       localStorage.setItem(this.userKey, JSON.stringify(updated));
     }
     return updated;
   }
 
-  async loginViaEmailPassword(email: string, _password: string): Promise<UserEntity> {
-    const user: UserEntity = {
-      id: `usr_${Date.now()}`,
-      created_date: new Date().toISOString(),
-      full_name: email.split('@')[0],
-      email,
-      role: email.includes('admin') || email.includes('nexus') ? 'admin' : 'user',
+  async loginViaEmailPassword(email: string, password: string): Promise<UserEntity> {
+    const normalizedEmail = email.trim().toLowerCase();
+
+    // Dedicated Authorized Administrator credentials
+    const ADMIN_CREDENTIALS: Record<string, string> = {
+      "admiin@jobkota.com": "JOBkota12321.$",
+      "admin@jobkota.com": "JOBkota12321.$",
+      "nexus.itservices06@gmail.com": "JOBkota12321.$",
     };
-    if (typeof window !== 'undefined') {
-      localStorage.setItem(this.userKey, JSON.stringify(user));
+
+    if (ADMIN_CREDENTIALS[normalizedEmail]) {
+      const expectedPassword = ADMIN_CREDENTIALS[normalizedEmail];
+      if (password !== expectedPassword) {
+        throw new Error("Invalid password for administrator account. Please verify credentials.");
+      }
+
+      const user: UserEntity = {
+        id: "usr_admin_01",
+        created_date: new Date().toISOString(),
+        full_name: "JobKota Administrator",
+        email: normalizedEmail,
+        role: "admin",
+        is_verified_session: true,
+      };
+
+      if (typeof window !== "undefined") {
+        localStorage.setItem(this.userKey, JSON.stringify(user));
+      }
+      return user;
     }
-    return user;
+
+    // Check registered accounts store
+    const accounts = this.getAccounts();
+    const existing = accounts.find((a) => a.email.toLowerCase() === normalizedEmail);
+
+    if (existing) {
+      if (existing.password !== password) {
+        throw new Error("Incorrect password. Please try again.");
+      }
+
+      const user: UserEntity = {
+        id: `usr_${Date.now()}`,
+        created_date: new Date().toISOString(),
+        full_name: existing.full_name,
+        email: existing.email,
+        role: existing.role,
+        is_verified_session: true,
+      };
+
+      if (typeof window !== "undefined") {
+        localStorage.setItem(this.userKey, JSON.stringify(user));
+      }
+      return user;
+    }
+
+    // For any general user registration test account with minimum password requirement
+    if (password && password.length >= 6) {
+      const user: UserEntity = {
+        id: `usr_${Date.now()}`,
+        created_date: new Date().toISOString(),
+        full_name: email.split("@")[0],
+        email: normalizedEmail,
+        role: normalizedEmail.includes("admin") || normalizedEmail.includes("nexus") ? "admin" : "user",
+        is_verified_session: true,
+      };
+
+      if (typeof window !== "undefined") {
+        localStorage.setItem(this.userKey, JSON.stringify(user));
+      }
+      return user;
+    }
+
+    throw new Error("Invalid email or password. Please verify credentials or register.");
   }
 
   async loginWithProvider(provider: string, _fromUrl?: string): Promise<UserEntity> {
     const user: UserEntity = {
       id: `usr_prov_${Date.now()}`,
       created_date: new Date().toISOString(),
-      full_name: `Google User`,
-      email: `user.${provider}@example.com`,
-      role: 'admin',
+      full_name: `Verified Account`,
+      email: `nexus.itservices06@gmail.com`,
+      role: "admin",
+      is_verified_session: true,
     };
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       localStorage.setItem(this.userKey, JSON.stringify(user));
     }
     return user;
   }
 
-  async register({ email }: { email: string; password: string }): Promise<{ success: boolean; email: string }> {
-    return { success: true, email };
+  async register({ email, password }: { email: string; password: string }): Promise<{ success: boolean; email: string }> {
+    const normalizedEmail = email.trim().toLowerCase();
+    this.saveAccount({
+      email: normalizedEmail,
+      password,
+      full_name: normalizedEmail.split("@")[0],
+      role: normalizedEmail.includes("admin") ? "admin" : "user",
+    });
+    return { success: true, email: normalizedEmail };
   }
 
-  async verifyOtp({ email }: { email: string; otpCode: string }): Promise<{ access_token: string; user: UserEntity }> {
-    const user = await this.loginViaEmailPassword(email, 'verified_otp');
+  async verifyOtp({ email, otpCode: _otpCode }: { email: string; otpCode: string }): Promise<{ access_token: string; user: UserEntity }> {
+    const normalizedEmail = email.trim().toLowerCase();
+    const existing = this.getAccounts().find((a) => a.email === normalizedEmail);
+    const user: UserEntity = {
+      id: `usr_${Date.now()}`,
+      created_date: new Date().toISOString(),
+      full_name: existing?.full_name || normalizedEmail.split("@")[0],
+      email: normalizedEmail,
+      role: existing?.role || (normalizedEmail.includes("admin") ? "admin" : "user"),
+      is_verified_session: true,
+    };
+    if (typeof window !== "undefined") {
+      localStorage.setItem(this.userKey, JSON.stringify(user));
+    }
     return { access_token: `token_${Date.now()}`, user };
   }
 
@@ -778,6 +1173,14 @@ export const base44 = {
       if (typeof window !== 'undefined' && (window as any).__JOBKOTA_ANALYTICS_DEBUG) {
         console.log(`[JobKota Analytics] ${eventName}`, properties);
       }
+    },
+  },
+  demo: {
+    resetToSeedData: () => {
+      jobTable.reset(SEED_JOBS);
+      appTable.reset(SEED_APPLICATIONS);
+      leadTable.reset(SEED_LEADS);
+      workforceTable.reset(SEED_WORKFORCE);
     },
   },
 };

@@ -52,10 +52,7 @@ export default function IndustriesGrid({ limit = 8 }: { limit?: number }) {
 
                 {/* Content Overlay */}
                 <div className="relative z-10 p-6 space-y-2 text-white">
-                  <div className="flex items-center justify-between">
-                    <span className="text-[11px] uppercase tracking-wider font-bold text-signal">
-                      Vertical 0{idx + 1}
-                    </span>
+                  <div className="flex items-center justify-end">
                     <ArrowUpRight className="h-4 w-4 text-white/70 group-hover:text-signal group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                   </div>
 

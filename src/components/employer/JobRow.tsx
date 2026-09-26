@@ -18,6 +18,7 @@ interface JobRowProps {
   applicantCount: number;
   onStatusChange: (newStatus: JobEntity["status"]) => void;
   onDelete: () => void;
+  onViewApplicants?: (jobId: string) => void;
 }
 
 export default function JobRow({
@@ -25,6 +26,7 @@ export default function JobRow({
   applicantCount,
   onStatusChange,
   onDelete,
+  onViewApplicants,
 }: JobRowProps) {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
@@ -83,13 +85,22 @@ export default function JobRow({
 
         {/* Right side stats and actions */}
         <div className="flex items-center justify-between sm:justify-end gap-3 pt-3 sm:pt-0 border-t sm:border-t-0 border-border/60">
-          {/* Applicant count */}
-          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-muted/60 text-xs font-semibold text-foreground">
-            <Users className="h-3.5 w-3.5 text-muted-foreground" />
+          {/* Applicant count button */}
+          <button
+            type="button"
+            onClick={() => onViewApplicants && onViewApplicants(job.id)}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
+              onViewApplicants
+                ? "bg-signal/20 hover:bg-signal text-foreground hover:text-primary cursor-pointer active:scale-95 border border-signal/30"
+                : "bg-muted/60 text-foreground"
+            }`}
+            title="View applicants for this position"
+          >
+            <Users className="h-3.5 w-3.5" />
             <span>
               {applicantCount} applicant{applicantCount === 1 ? "" : "s"}
             </span>
-          </div>
+          </button>
 
           {/* Status selector */}
           <select

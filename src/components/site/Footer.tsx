@@ -20,18 +20,28 @@ export default function Footer() {
               {siteConfig.promise}
             </p>
 
-            <div className="pt-2 space-y-2 text-xs text-primary-foreground/60">
-              <div className="flex items-center gap-2">
-                <MapPin className="h-3.5 w-3.5 text-signal shrink-0" />
-                <span>{siteConfig.address}</span>
+            <div className="pt-2 space-y-2.5 text-xs text-primary-foreground/70">
+              <div className="flex items-start gap-2">
+                <MapPin className="h-3.5 w-3.5 text-signal shrink-0 mt-0.5" />
+                <span className="leading-snug">{siteConfig.address}</span>
               </div>
-              <div className="flex items-center gap-2">
-                <Phone className="h-3.5 w-3.5 text-signal shrink-0" />
-                <span>{siteConfig.phone}</span>
+              <div className="flex items-start gap-2">
+                <Phone className="h-3.5 w-3.5 text-signal shrink-0 mt-0.5" />
+                <div className="flex flex-wrap gap-x-2 gap-y-1">
+                  <a href="tel:+971547996628" className="hover:text-signal transition-colors underline-offset-2 hover:underline">
+                    +971 54 799 6628
+                  </a>
+                  <span className="text-primary-foreground/40">•</span>
+                  <a href="tel:+971501512955" className="hover:text-signal transition-colors underline-offset-2 hover:underline">
+                    +971 50 151 2955
+                  </a>
+                </div>
               </div>
               <div className="flex items-center gap-2">
                 <Mail className="h-3.5 w-3.5 text-signal shrink-0" />
-                <span>{siteConfig.email}</span>
+                <a href={`mailto:${siteConfig.email}`} className="hover:text-signal transition-colors underline-offset-2 hover:underline">
+                  {siteConfig.email}
+                </a>
               </div>
             </div>
 

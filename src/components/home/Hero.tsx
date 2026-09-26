@@ -174,7 +174,7 @@ export default function Hero() {
                       Interview: Tue 10:30 AM
                     </p>
                     <p className="text-[10px] text-muted-foreground">
-                      Partner Discussion · DIFC
+                      Partner Discussion · Dubai
                     </p>
                   </div>
                 </div>

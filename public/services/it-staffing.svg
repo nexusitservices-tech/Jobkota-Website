@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg-grad-it" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#050a18" />
+      <stop offset="50%" stop-color="#0b1329" />
+      <stop offset="100%" stop-color="#020409" />
+    </linearGradient>
+    <linearGradient id="cyber-cyan" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00f0ff" />
+      <stop offset="50%" stop-color="#3b82f6" />
+      <stop offset="100%" stop-color="#a855f7" />
+    </linearGradient>
+    <radialGradient id="spot-it" cx="25%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.3" />
+      <stop offset="60%" stop-color="#050a18" stop-opacity="0.05" />
+      <stop offset="100%" stop-color="#000000" stop-opacity="0" />
+    </radialGradient>
+    <pattern id="matrix-grid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <path d="M 32 0 L 0 0 0 32" fill="none" stroke="#38bdf8" stroke-width="0.8" stroke-opacity="0.06" />
+    </pattern>
+  </defs>
+
+  <!-- Deep Cyber Infrastructure Canvas -->
+  <rect width="800" height="600" fill="url(#bg-grad-it)" />
+  <rect width="800" height="600" fill="url(#spot-it)" />
+  <rect width="800" height="600" fill="url(#matrix-grid)" />
+
+  <!-- Code Editor Window Silhouette -->
+  <g transform="translate(60, 90)">
+    <!-- Terminal Window Frame -->
+    <rect x="0" y="0" width="340" height="230" rx="14" fill="#080f24" stroke="#3b82f6" stroke-width="1.8" stroke-opacity="0.8" />
+    <path d="M 0 0 L 340 0 L 340 34 L 0 34 Z" fill="#0c1635" />
+    <!-- Window Controls -->
+    <circle cx="20" cy="17" r="4.5" fill="#ef4444" />
+    <circle cx="36" cy="17" r="4.5" fill="#f59e0b" />
+    <circle cx="52" cy="17" r="4.5" fill="#10b981" />
+    <!-- Window Title -->
+    <text x="75" y="21" font-family="monospace" font-size="11" fill="#93c5fd" opacity="0.8">engineer.ts · dev-squad</text>
+
+    <!-- Syntax Code Lines -->
+    <g transform="translate(20, 50)" font-family="monospace" font-size="12">
+      <!-- Line 1: import -->
+      <text x="0" y="20" fill="#a855f7">import</text>
+      <text x="52" y="20" fill="#e0f2fe">{ SeniorTalent, CloudStack }</text>
+      
+      <!-- Line 2: async function -->
+      <text x="0" y="44" fill="#38bdf8">export const</text>
+      <text x="96" y="44" fill="#facc15">deployEngineers</text>
+      <text x="210" y="44" fill="#e0f2fe">=</text>
+
+      <!-- Line 3: Code block -->
+      <text x="16" y="68" fill="#38bdf8">async</text>
+      <text x="60" y="68" fill="#e0f2fe">() =&gt; {</text>
+
+      <!-- Line 4: Return vetted devs -->
+      <text x="32" y="92" fill="#a855f7">await</text>
+      <text x="76" y="92" fill="#e0f2fe">squad.verifyCode(</text>
+      <text x="200" y="92" fill="#4ade80">'100% vetted'</text>
+      <text x="296" y="92" fill="#e0f2fe">);</text>
+
+      <!-- Line 5: Closing tag -->
+      <text x="16" y="116" fill="#00f0ff">return</text>
+      <text x="66" y="116" fill="#e0f2fe">readyInDays(5);</text>
+      <text x="0" y="140" fill="#e0f2fe">};</text>
+
+      <!-- Blinking Cursor -->
+      <rect x="25" y="148" width="8" height="14" fill="#00f0ff" opacity="0.9" />
+    </g>
+  </g>
+
+  <!-- Cloud Server Architecture Nodes & Traces -->
+  <g transform="translate(450, 110)">
+    <!-- Circuit Board Traces -->
+    <path d="M 0 160 L 60 160 L 110 90 L 220 90" fill="none" stroke="#00f0ff" stroke-width="1.8" stroke-opacity="0.5" />
+    <path d="M 20 220 L 90 220 L 140 270 L 220 270" fill="none" stroke="#a855f7" stroke-width="1.8" stroke-opacity="0.5" />
+    <path d="M 110 90 L 110 20 L 170 20" fill="none" stroke="#3b82f6" stroke-width="1.5" stroke-opacity="0.4" />
+
+    <!-- Terminal Circuit Points -->
+    <circle cx="170" cy="20" r="5" fill="#3b82f6" />
+    <circle cx="220" cy="90" r="6" fill="#00f0ff" />
+    <circle cx="220" cy="90" r="14" fill="none" stroke="#00f0ff" stroke-width="1" stroke-opacity="0.5" />
+    <circle cx="220" cy="270" r="5" fill="#a855f7" />
+
+    <!-- Cloud Server Rack Tower -->
+    <g transform="translate(180, 120)">
+      <rect x="0" y="0" width="100" height="30" rx="6" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5" />
+      <circle cx="15" cy="15" r="3" fill="#4ade80" />
+      <circle cx="27" cy="15" r="3" fill="#38bdf8" />
+      <line x1="42" y1="15" x2="85" y2="15" stroke="#38bdf8" stroke-width="2" stroke-opacity="0.4" stroke-linecap="round" />
+
+      <rect x="0" y="38" width="100" height="30" rx="6" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5" />
+      <circle cx="15" cy="53" r="3" fill="#4ade80" />
+      <circle cx="27" cy="53" r="3" fill="#a855f7" />
+      <line x1="42" y1="53" x2="85" y2="53" stroke="#38bdf8" stroke-width="2" stroke-opacity="0.4" stroke-linecap="round" />
+
+      <rect x="0" y="76" width="100" height="30" rx="6" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5" />
+      <circle cx="15" cy="91" r="3" fill="#4ade80" />
+      <circle cx="27" cy="91" r="3" fill="#facc15" />
+      <line x1="42" y1="91" x2="85" y2="91" stroke="#38bdf8" stroke-width="2" stroke-opacity="0.4" stroke-linecap="round" />
+    </g>
+  </g>
+
+  <!-- Large Stylized Code Brackets in Background -->
+  <g transform="translate(680, 260)" opacity="0.25">
+    <text font-family="monospace" font-weight="900" font-size="160" fill="#38bdf8">&gt;</text>
+  </g>
+
+  <!-- Bottom Fog Scrim -->
+  <rect y="440" width="800" height="160" fill="url(#bg-grad-it)" opacity="0.85" />
+</svg>

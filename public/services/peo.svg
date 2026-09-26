@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg-grad-peo" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090e24" />
+      <stop offset="50%" stop-color="#11183b" />
+      <stop offset="100%" stop-color="#050714" />
+    </linearGradient>
+    <linearGradient id="violet-cyan" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8b5cf6" />
+      <stop offset="50%" stop-color="#6366f1" />
+      <stop offset="100%" stop-color="#06b6d4" />
+    </linearGradient>
+    <radialGradient id="spot-peo" cx="70%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#6366f1" stop-opacity="0.3" />
+      <stop offset="60%" stop-color="#090e24" stop-opacity="0.05" />
+      <stop offset="100%" stop-color="#000000" stop-opacity="0" />
+    </radialGradient>
+    <pattern id="world-dots" width="24" height="24" patternUnits="userSpaceOnUse">
+      <circle cx="12" cy="12" r="1.2" fill="#818cf8" fill-opacity="0.1" />
+    </pattern>
+  </defs>
+
+  <!-- Deep Global Mobility Canvas -->
+  <rect width="800" height="600" fill="url(#bg-grad-peo)" />
+  <rect width="800" height="600" fill="url(#spot-peo)" />
+  <rect width="800" height="600" fill="url(#world-dots)" />
+
+  <!-- Global Wireframe Sphere / Latitude & Longitude Arcs -->
+  <g transform="translate(540, 220)" opacity="0.75">
+    <!-- Outer Globe Perimeter -->
+    <circle cx="0" cy="0" r="140" fill="#0d1435" stroke="#6366f1" stroke-width="1.8" stroke-opacity="0.4" />
+    
+    <!-- Longitude Ellipses -->
+    <ellipse cx="0" cy="0" rx="100" ry="140" fill="none" stroke="#6366f1" stroke-width="1.2" stroke-opacity="0.25" />
+    <ellipse cx="0" cy="0" rx="55" ry="140" fill="none" stroke="#818cf8" stroke-width="1" stroke-opacity="0.3" />
+    <line x1="0" y1="-140" x2="0" y2="140" stroke="#818cf8" stroke-width="1.2" stroke-opacity="0.4" />
+
+    <!-- Latitude Parallels -->
+    <line x1="-140" y1="0" x2="140" y2="0" stroke="#818cf8" stroke-width="1.5" stroke-opacity="0.4" />
+    <ellipse cx="0" cy="-60" rx="126" ry="32" fill="none" stroke="#6366f1" stroke-width="1" stroke-opacity="0.2" />
+    <ellipse cx="0" cy="60" rx="126" ry="32" fill="none" stroke="#6366f1" stroke-width="1" stroke-opacity="0.2" />
+
+    <!-- Flight / Expansion Arcs to Regional Hub (Dubai / UAE) -->
+    <path d="M -160 -40 Q -80 -120, -10 -20" fill="none" stroke="#38bdf8" stroke-width="2.5" stroke-dasharray="6 3" />
+    <circle cx="-10" cy="-20" r="6" fill="#38bdf8" />
+    <circle cx="-10" cy="-20" r="14" fill="none" stroke="#38bdf8" stroke-width="1.2" stroke-opacity="0.6" />
+
+    <path d="M -180 80 Q -90 20, -10 -20" fill="none" stroke="#a855f7" stroke-width="2" stroke-dasharray="5 3" />
+    <circle cx="-180" cy="80" r="4.5" fill="#a855f7" />
+  </g>
+
+  <!-- Legal Sponsorship & Entity Shield Motif -->
+  <g transform="translate(120, 150)">
+    <!-- Corporate Headquarters Silhouette -->
+    <polygon points="40,240 40,80 110,40 180,80 180,240" fill="#0d173d" stroke="#818cf8" stroke-width="1.5" stroke-opacity="0.6" />
+    <line x1="110" y1="40" x2="110" y2="240" stroke="#818cf8" stroke-width="1" stroke-opacity="0.3" />
+    
+    <!-- Building Windows -->
+    <g fill="#c7d2fe" fill-opacity="0.5">
+      <rect x="60" y="100" width="16" height="12" rx="2" />
+      <rect x="90" y="100" width="16" height="12" rx="2" />
+      <rect x="120" y="100" width="16" height="12" rx="2" />
+      <rect x="150" y="100" width="16" height="12" rx="2" />
+
+      <rect x="60" y="130" width="16" height="12" rx="2" />
+      <rect x="90" y="130" width="16" height="12" rx="2" />
+      <rect x="120" y="130" width="16" height="12" rx="2" />
+      <rect x="150" y="130" width="16" height="12" rx="2" />
+
+      <rect x="60" y="160" width="16" height="12" rx="2" />
+      <rect x="90" y="160" width="16" height="12" rx="2" />
+      <rect x="120" y="160" width="16" height="12" rx="2" />
+      <rect x="150" y="160" width="16" height="12" rx="2" />
+    </g>
+
+    <!-- Floating Legal Contract with Golden Seal -->
+    <g transform="translate(130, 80) rotate(8)">
+      <rect x="0" y="0" width="110" height="145" rx="8" fill="#131c46" stroke="#c084fc" stroke-width="1.8" />
+      <!-- Signature Lines -->
+      <line x1="15" y1="25" x2="95" y2="25" stroke="#e0e7ff" stroke-width="2" stroke-linecap="round" />
+      <line x1="15" y1="45" x2="85" y2="45" stroke="#e0e7ff" stroke-width="1.5" stroke-linecap="round" stroke-opacity="0.7" />
+      <line x1="15" y1="60" x2="90" y2="60" stroke="#e0e7ff" stroke-width="1.5" stroke-linecap="round" stroke-opacity="0.7" />
+      <line x1="15" y1="75" x2="70" y2="75" stroke="#e0e7ff" stroke-width="1.5" stroke-linecap="round" stroke-opacity="0.7" />
+      
+      <!-- Gold Certification Seal & Ribbon -->
+      <circle cx="55" cy="112" r="16" fill="#fbbf24" stroke="#d97706" stroke-width="1.5" />
+      <polygon points="48,124 55,138 62,124" fill="#d97706" />
+      <polyline points="47,112 53,117 64,106" fill="none" stroke="#78350f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+    </g>
+  </g>
+
+  <!-- Global Expansion Indicator -->
+  <g transform="translate(120, 360)">
+    <text x="0" y="0" font-family="system-ui, sans-serif" font-weight="800" font-size="12" fill="#a5b4fc" letter-spacing="2">EOR INFRASTRUCTURE · 48H ONBOARDING</text>
+  </g>
+
+  <!-- Bottom Fog Scrim -->
+  <rect y="440" width="800" height="160" fill="url(#bg-grad-peo)" opacity="0.85" />
+</svg>

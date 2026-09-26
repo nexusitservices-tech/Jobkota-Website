@@ -1,5 +1,6 @@
 import useSeo from "@/lib/useSeo";
 import PageHero from "@/components/site/PageHero";
+import { siteConfig } from "@/lib/content";
 
 interface LegalProps {
   type: "privacy" | "terms" | "cookies";
@@ -116,7 +117,7 @@ export default function Legal({ type }: LegalProps) {
           </div>
 
           <div className="pt-8 border-t border-border text-xs text-muted-foreground">
-            Questions regarding our legal policies? Contact legal@jobkota.com or DIFC Gate Precinct 4, Level 5, Dubai, UAE.
+            Questions regarding our legal policies? Contact {siteConfig.email} or {siteConfig.address}.
           </div>
         </div>
       </div>

@@ -79,6 +79,7 @@ const AuthenticatedApp = () => {
         {/* Employer dashboard routes (auth + admin) */}
         <Route element={<ProtectedRoute unauthenticatedElement={<Navigate to="/login" replace />} />}>
           <Route element={<AdminRoute />}>
+            <Route path="/admin" element={<EmployerDashboard />} />
             <Route path="/dashboard" element={<EmployerDashboard />} />
             <Route path="/dashboard/post" element={<JobEditor />} />
             <Route path="/dashboard/edit/:id" element={<JobEditor />} />

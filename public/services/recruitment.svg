@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg-grad-rec" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a101d" />
+      <stop offset="50%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#030712" />
+    </linearGradient>
+    <linearGradient id="sky-glow" x1="50%" y1="0%" x2="50%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.25" />
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0" />
+    </linearGradient>
+    <linearGradient id="gold-glow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fbbf24" stop-opacity="0.8" />
+      <stop offset="100%" stop-color="#d97706" stop-opacity="0.2" />
+    </linearGradient>
+    <radialGradient id="spot-rec" cx="70%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#0284c7" stop-opacity="0.35" />
+      <stop offset="50%" stop-color="#0f172a" stop-opacity="0.1" />
+      <stop offset="100%" stop-color="#000000" stop-opacity="0" />
+    </radialGradient>
+    <pattern id="grid-rec" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#ffffff" stroke-width="1" stroke-opacity="0.04" />
+    </pattern>
+  </defs>
+
+  <!-- Deep Corporate Backdrop -->
+  <rect width="800" height="600" fill="url(#bg-grad-rec)" />
+  <rect width="800" height="600" fill="url(#spot-rec)" />
+  <rect width="800" height="600" fill="url(#grid-rec)" />
+
+  <!-- Dubai / Gulf Skyline Silhouette Elements -->
+  <g opacity="0.3" transform="translate(180, 100)">
+    <!-- Tower 1 (Super-tall spire) -->
+    <path d="M 320 380 L 320 60 L 325 30 L 326 10 L 327 30 L 332 60 L 332 380 Z" fill="#38bdf8" fill-opacity="0.3" />
+    <line x1="326" y1="10" x2="326" y2="380" stroke="#bae6fd" stroke-width="1" stroke-opacity="0.5" />
+    <!-- Tower 2 (Geometric Financial Center) -->
+    <polygon points="220,380 220,120 280,160 280,380" fill="#1e293b" stroke="#38bdf8" stroke-width="1" stroke-opacity="0.3" />
+    <polygon points="120,380 120,190 190,150 190,380" fill="#0f172a" stroke="#0284c7" stroke-width="1" stroke-opacity="0.3" />
+    <polygon points="360,380 360,140 430,200 430,380" fill="#1e293b" stroke="#38bdf8" stroke-width="1" stroke-opacity="0.3" />
+    <!-- Tower windows pattern -->
+    <g fill="#bae6fd" fill-opacity="0.6">
+      <rect x="235" y="160" width="3" height="4" />
+      <rect x="245" y="160" width="3" height="4" />
+      <rect x="255" y="160" width="3" height="4" />
+      <rect x="235" y="180" width="3" height="4" />
+      <rect x="245" y="180" width="3" height="4" />
+      <rect x="255" y="180" width="3" height="4" />
+      <rect x="235" y="210" width="3" height="4" />
+      <rect x="255" y="210" width="3" height="4" />
+      <rect x="375" y="180" width="3" height="4" />
+      <rect x="390" y="180" width="3" height="4" />
+      <rect x="405" y="180" width="3" height="4" />
+      <rect x="375" y="210" width="3" height="4" />
+      <rect x="390" y="210" width="3" height="4" />
+    </g>
+  </g>
+
+  <!-- Executive Boardroom Table Silhouette & Architectural Glass Lines -->
+  <g transform="translate(0, 180)">
+    <path d="M -50 420 L 260 260 L 580 260 L 850 420" fill="none" stroke="#38bdf8" stroke-width="1.5" stroke-opacity="0.35" />
+    <path d="M 120 420 L 320 290 L 520 290 L 700 420" fill="none" stroke="#0ea5e9" stroke-width="1" stroke-opacity="0.2" stroke-dasharray="4 4" />
+  </g>
+
+  <!-- Headhunting Radar / Talent Sourcing Target Rings -->
+  <g transform="translate(560, 200)">
+    <circle cx="0" cy="0" r="140" fill="none" stroke="#38bdf8" stroke-width="1" stroke-opacity="0.15" stroke-dasharray="6 6" />
+    <circle cx="0" cy="0" r="95" fill="none" stroke="#0ea5e9" stroke-width="1.5" stroke-opacity="0.25" />
+    <circle cx="0" cy="0" r="50" fill="none" stroke="#0284c7" stroke-width="1" stroke-opacity="0.4" />
+    <line x1="-150" y1="0" x2="150" y2="0" stroke="#38bdf8" stroke-width="1" stroke-opacity="0.2" />
+    <line x1="0" y1="-150" x2="0" y2="150" stroke="#38bdf8" stroke-width="1" stroke-opacity="0.2" />
+
+    <!-- Pulse target blips (Executive Talent Candidates) -->
+    <circle cx="45" cy="-35" r="5" fill="#38bdf8" />
+    <circle cx="45" cy="-35" r="12" fill="none" stroke="#38bdf8" stroke-width="1" stroke-opacity="0.5" />
+    
+    <circle cx="-60" cy="40" r="4" fill="#fbbf24" />
+    <circle cx="-60" cy="40" r="9" fill="none" stroke="#fbbf24" stroke-width="1" stroke-opacity="0.6" />
+
+    <circle cx="70" cy="65" r="3.5" fill="#10b981" />
+  </g>
+
+  <!-- Candidate Network Hierarchy Nodes -->
+  <g transform="translate(80, 120)">
+    <!-- Primary Node (C-Suite / Partner) -->
+    <circle cx="120" cy="100" r="18" fill="#0f172a" stroke="#38bdf8" stroke-width="2" />
+    <circle cx="120" cy="100" r="6" fill="#38bdf8" />
+    
+    <!-- Child Talent Nodes -->
+    <line x1="120" y1="118" x2="60" y2="190" stroke="#38bdf8" stroke-width="1.5" stroke-opacity="0.4" />
+    <line x1="120" y1="118" x2="180" y2="190" stroke="#38bdf8" stroke-width="1.5" stroke-opacity="0.4" />
+    <line x1="180" y1="202" x2="250" y2="260" stroke="#38bdf8" stroke-width="1" stroke-opacity="0.25" stroke-dasharray="3 3" />
+
+    <circle cx="60" cy="190" r="12" fill="#0f172a" stroke="#0ea5e9" stroke-width="1.5" />
+    <circle cx="60" cy="190" r="4" fill="#0ea5e9" />
+
+    <circle cx="180" cy="190" r="12" fill="#0f172a" stroke="#0ea5e9" stroke-width="1.5" />
+    <circle cx="180" cy="190" r="4" fill="#0ea5e9" />
+
+    <circle cx="250" cy="260" r="9" fill="#0f172a" stroke="#fbbf24" stroke-width="1.5" />
+    <circle cx="250" cy="260" r="3" fill="#fbbf24" />
+  </g>
+
+  <!-- Vignette and Ambient Gradient Overlays -->
+  <rect width="800" height="600" fill="url(#sky-glow)" />
+  <rect y="420" width="800" height="180" fill="url(#bg-grad-rec)" opacity="0.8" />
+</svg>

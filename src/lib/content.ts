@@ -3,8 +3,10 @@ export const siteConfig = {
   tagline: "Talent. Opportunities. Growth.",
   promise: "Making recruitment simpler, faster, and more connected.",
   email: "hello@jobkota.com",
-  phone: "+971 4 820 4000",
-  address: "DIFC Gate Precinct 4, Level 5, Dubai, UAE",
+  phone: "+971 54 799 6628, +971 50 151 2955",
+  phones: ["+971 54 799 6628", "+971 50 151 2955"],
+  address: "9th floor, Creek Tower Car Parking Building, Riggat Alo Buteen, Office No 45, Deira, Dubai",
+  location: "9th floor, Creek Tower Car Parking Building, Riggat Alo Buteen, Office No 45, Deira, Dubai",
   markets: "UAE · GCC · International",
 };
 
@@ -32,6 +34,7 @@ export interface ServiceItem {
   icon: string;
   title: string;
   short: string;
+  image?: string;
   hero: string;
   problem: string;
   solution: string;
@@ -47,6 +50,7 @@ export const services: ServiceItem[] = [
     slug: "recruitment",
     icon: "Users",
     title: "Recruitment",
+    image: "/services/recruitment.jpg",
     short: "Permanent, contract, and executive search designed to secure qualified talent.",
     hero: "Recruit the right people with confidence.",
     problem:
@@ -84,6 +88,7 @@ export const services: ServiceItem[] = [
     slug: "manpower-supply",
     icon: "HardHat",
     title: "Manpower Supply",
+    image: "/services/manpower-supply.png",
     short: "Rapidly mobilizable, compliant temporary and volume workforce solutions.",
     hero: "Flexible workforce, ready when you are.",
     problem:
@@ -121,6 +126,7 @@ export const services: ServiceItem[] = [
     slug: "hr-outsourcing",
     icon: "ClipboardList",
     title: "HR Outsourcing",
+    image: "/services/hr-outsourcing.jpg",
     short: "End-to-end human resource operations, employee relations, and policy compliance.",
     hero: "HR operations, handled.",
     problem:
@@ -154,6 +160,7 @@ export const services: ServiceItem[] = [
     slug: "payroll",
     icon: "Wallet",
     title: "Payroll Services",
+    image: "/services/payroll.png",
     short: "Accurate, automated Wages Protection System (WPS) payroll and benefits disbursement.",
     hero: "Payroll that runs on time, every time.",
     problem:
@@ -187,6 +194,7 @@ export const services: ServiceItem[] = [
     slug: "peo",
     icon: "ShieldCheck",
     title: "Employer Services",
+    image: "/services/peo.png",
     short: "Employer of Record (EOR / PEO) solutions to hire talent legally without establishing local entities.",
     hero: "Employ talent without the administrative weight.",
     problem:
@@ -220,6 +228,7 @@ export const services: ServiceItem[] = [
     slug: "it-staffing",
     icon: "Code2",
     title: "IT Staffing",
+    image: "/services/it-staffing.png",
     short: "Specialized software engineers, cloud architects, and data practitioners on contract or full-time.",
     hero: "Technology talent for what you're building next.",
     problem:

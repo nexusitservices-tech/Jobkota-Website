@@ -57,9 +57,18 @@ export default function Contact() {
                     <p className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
                       Telephone / WhatsApp
                     </p>
-                    <p className="font-semibold text-foreground mt-0.5">
-                      {siteConfig.phone}
-                    </p>
+                    <div className="font-semibold text-foreground mt-0.5 space-y-1">
+                      <div>
+                        <a href="tel:+971547996628" className="hover:text-primary transition-colors underline-offset-4 hover:underline">
+                          +971 54 799 6628
+                        </a>
+                      </div>
+                      <div>
+                        <a href="tel:+971501512955" className="hover:text-primary transition-colors underline-offset-4 hover:underline">
+                          +971 50 151 2955
+                        </a>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
@@ -94,7 +103,7 @@ export default function Contact() {
 
               <div className="pt-4 border-t border-border">
                 <p className="text-xs text-muted-foreground leading-relaxed">
-                  Visitors by prior appointment. In-person executive consultations may be booked in advance with our DIFC practice team.
+                  Visitors by prior appointment. In-person executive consultations may be booked in advance with our Deira office practice team.
                 </p>
               </div>
             </div>

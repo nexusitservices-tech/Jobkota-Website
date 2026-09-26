@@ -59,6 +59,25 @@ export default function Login() {
         </div>
       )}
 
+      {/* Administrator Access Card */}
+      <div className="mb-6 rounded-2xl bg-signal/15 border border-signal/30 p-3.5 flex items-center justify-between text-xs shadow-xs">
+        <div className="space-y-0.5">
+          <p className="font-bold text-foreground">Authorized Admin Access</p>
+          <p className="text-muted-foreground font-mono text-[11px]">admiin@jobkota.com</p>
+        </div>
+        <button
+          type="button"
+          onClick={() => {
+            setEmail("admiin@jobkota.com");
+            setPassword("JOBkota12321.$");
+            setErrorMsg(null);
+          }}
+          className="text-xs font-bold text-primary bg-signal hover:brightness-105 active:scale-95 px-3 py-1.5 rounded-xl cursor-pointer transition-all shadow-xs"
+        >
+          Quick Fill
+        </button>
+      </div>
+
       <form onSubmit={handleSubmit} className="space-y-4">
         <Field label="Email Address" required>
           <Input

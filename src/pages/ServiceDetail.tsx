@@ -58,6 +58,7 @@ export default function ServiceDetail() {
         title={service.title}
         accentWord="Solutions"
         description={service.hero}
+        backgroundImage={service.image}
       >
         <div className="pt-2 flex flex-wrap items-center gap-4">
           <Link to="/employers/request-talent">
